@@ -442,6 +442,85 @@ ul { margin: 0; padding: 0; }
   margin-top: 4px;
 }
 
+/* Featured tile — spans both grid columns, thumbnail bleeds off the edge */
+.project--featured {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 0;
+  padding: 0;
+  border-color: transparent;
+  overflow: hidden;
+  min-height: 200px;
+}
+.project--featured:hover { transform: none; border-color: transparent; }
+
+.project--featured__text {
+  flex: 1 1 55%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.project--featured__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--amber);
+  letter-spacing: 0.05em;
+}
+
+.project--featured__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.project--featured__title svg { width: 15px; height: 15px; color: var(--ink-faint); flex-shrink: 0; }
+.project--featured__title:hover svg { color: var(--teal); }
+
+.project--featured__subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+  color: var(--teal);
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.project--featured__desc {
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+  max-width: 480px;
+}
+
+.project--featured__thumb-wrap {
+  flex: 1 1 45%;
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.project--featured__thumb {
+  position: absolute;
+  top: 14px;
+  left: 0;
+  width: calc(100% + 24px);
+  height: calc(100% + 14px);
+  object-fit: cover;
+  object-position: top left;
+  border-radius: 10px 0 0 10px;
+  border: 1px solid var(--border);
+  box-shadow: -6px 6px 18px rgba(18,24,33,0.08);
+}
+
+@media (max-width: 640px) {
+  .project--featured { flex-direction: column; }
+  .project--featured__thumb-wrap { display: none; }
+}
+
 /* =========================================================
    SKILLS
    ========================================================= */
