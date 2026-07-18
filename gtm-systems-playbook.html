@@ -1,0 +1,350 @@
+<style>
+  :root{
+    --paper:#F5F6F8;
+    --surface:#FFFFFF;
+    --surface-2:#EEF0F4;
+    --ink:#161A22;
+    --muted:#5B6472;
+    --line:#E1E4EA;
+    --upper:#2B5FD9;
+    --upper-tint:#E7EDFC;
+    --bridge:#2E948A;
+    --bridge-tint:#E4F3F1;
+    --lower:#C1671F;
+    --lower-tint:#FBEBDC;
+    --shadow: 0 1px 2px rgba(22,26,34,.04), 0 8px 24px -12px rgba(22,26,34,.12);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --paper:#10131A; --surface:#171B24; --surface-2:#1D222D; --ink:#E8EAF0; --muted:#9AA3B2; --line:#2A2F3C;
+      --upper:#7098FF; --upper-tint:#1B2740; --bridge:#57C2B6; --bridge-tint:#152B29; --lower:#F0A155; --lower-tint:#332215;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#10131A; --surface:#171B24; --surface-2:#1D222D; --ink:#E8EAF0; --muted:#9AA3B2; --line:#2A2F3C;
+    --upper:#7098FF; --upper-tint:#1B2740; --bridge:#57C2B6; --bridge-tint:#152B29; --lower:#F0A155; --lower-tint:#332215;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+  }
+  :root[data-theme="light"]{
+    --paper:#F5F6F8; --surface:#FFFFFF; --surface-2:#EEF0F4; --ink:#161A22; --muted:#5B6472; --line:#E1E4EA;
+    --upper:#2B5FD9; --upper-tint:#E7EDFC; --bridge:#2E948A; --bridge-tint:#E4F3F1; --lower:#C1671F; --lower-tint:#FBEBDC;
+    --shadow: 0 1px 2px rgba(22,26,34,.04), 0 8px 24px -12px rgba(22,26,34,.12);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:ui-monospace,"SF Mono","Cascadia Code",Menlo,Consolas,monospace; font-variant-numeric:tabular-nums;}
+  h1,h2,h3,h4{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif; text-wrap:balance; margin:0; color:var(--ink); font-weight:600;}
+  p{margin:0 0 1em; color:var(--ink);}
+  a{color:var(--upper);}
+
+  .eyebrow{font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); font-weight:700;}
+
+  .page{max-width:1180px; margin:0 auto; padding: 0 24px 80px;}
+
+  .masthead{padding: 56px 0 40px; border-bottom:1px solid var(--line); margin-bottom:8px;}
+  .masthead .eyebrow{margin-bottom:14px;}
+  .masthead h1{font-size:clamp(30px,4.2vw,46px); line-height:1.08; max-width:25ch;}
+  .masthead .sub{font-size:18px; color:var(--muted); max-width:66ch; margin-top:16px;}
+  .masthead .meta{display:flex; gap:28px; margin-top:28px; flex-wrap:wrap;}
+  .masthead .meta div{font-size:13px; color:var(--muted);}
+  .masthead .meta b{display:block; color:var(--ink); font-size:14px; margin-top:2px; font-weight:600;}
+
+  .layout{display:grid; grid-template-columns: 230px 1fr; gap:56px; align-items:start; margin-top:40px;}
+  @media (max-width:860px){ .layout{grid-template-columns:1fr;} .toc{position:static !important; order:2;} }
+
+  .toc{position:sticky; top:24px; padding-top:4px;}
+  .toc .eyebrow{margin-bottom:14px;}
+  .toc ol{list-style:none; margin:0; padding:0; border-left:1px solid var(--line);}
+  .toc li{margin:0;}
+  .toc a{display:block; padding:9px 0 9px 16px; margin-left:-1px; border-left:2px solid transparent; color:var(--muted); text-decoration:none; font-size:13.5px; font-weight:500;}
+  .toc a:hover{color:var(--ink); border-left-color:var(--line);}
+  .toc a:focus-visible{outline:2px solid var(--upper); outline-offset:2px;}
+
+  main{min-width:0;}
+  section{padding: 52px 0; border-bottom:1px solid var(--line);}
+  section:last-child{border-bottom:none;}
+  section h2{font-size:27px; margin-bottom:6px;}
+  .section-intro{color:var(--muted); font-size:15.5px; max-width:70ch; margin-top:10px; margin-bottom:28px;}
+
+  .callout{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:20px 22px; box-shadow:var(--shadow); margin: 20px 0;}
+  .callout p:last-child{margin-bottom:0;}
+
+  .tag{display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; padding:3px 9px; border-radius:100px; white-space:nowrap;}
+  .tag::before{content:""; width:6px; height:6px; border-radius:50%; background:currentColor;}
+  .tag-upper{background:var(--upper-tint); color:var(--upper);}
+  .tag-bridge{background:var(--bridge-tint); color:var(--bridge);}
+  .tag-lower{background:var(--lower-tint); color:var(--lower);}
+  .tag-diag{background:var(--surface-2); color:var(--muted);}
+
+  .table-wrap{overflow-x:auto; border:1px solid var(--line); border-radius:8px; margin:18px 0 30px;}
+  table{border-collapse:collapse; width:100%; min-width:560px; background:var(--surface);}
+  th,td{text-align:left; padding:12px 16px; font-size:14px; border-bottom:1px solid var(--line); vertical-align:top;}
+  th{font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:700; background:var(--surface-2); white-space:nowrap;}
+  tr:last-child td{border-bottom:none;}
+  td.num, th.num{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-variant-numeric:tabular-nums;}
+  .metric-name{font-weight:600;}
+  .group-caption{font-size:13px; color:var(--muted); margin:28px 0 -6px;}
+  .group-caption b{color:var(--ink);}
+
+  /* stage flow — Spend through LTV */
+  .stage-flow{display:flex; align-items:stretch; gap:0; margin:28px 0 6px; flex-wrap:wrap;}
+  .stage-box{flex:1 1 128px; min-width:120px; border-radius:8px; padding:16px 12px; text-align:center; color:#fff; display:flex; flex-direction:column; gap:5px; justify-content:center;}
+  .stage-box.upper{background:var(--upper);}
+  .stage-box.bridge{background:var(--bridge);}
+  .stage-box.lower{background:var(--lower);}
+  .stage-box.diag{background:var(--ink); color:var(--paper);}
+  .stage-box .stage-label{font-size:10px; letter-spacing:.1em; text-transform:uppercase; opacity:.85; font-weight:700;}
+  .stage-box .stage-name{font-size:15.5px; font-weight:600; font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;}
+  .stage-arrow{display:flex; align-items:center; justify-content:center; min-width:22px; color:var(--muted); font-size:16px; padding:0 2px;}
+  @media (max-width:900px){ .stage-flow{flex-direction:column;} .stage-arrow{transform:rotate(90deg); min-height:22px; margin:2px 0;} }
+  .loop-note{display:flex; align-items:center; gap:10px; margin-top:18px; padding:14px 18px; border:1px dashed var(--line); border-radius:8px; font-size:13.5px; color:var(--muted);}
+  .loop-note b{color:var(--ink);}
+
+  .card-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; margin-top:8px;}
+  .card{background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:20px; box-shadow:var(--shadow);}
+  .card .eyebrow{margin-bottom:8px;}
+  .card h4{font-size:16px; margin-bottom:8px;}
+  .card p{font-size:13.5px; color:var(--muted); margin-bottom:0;}
+
+  .pipeline-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:18px; margin-top:8px;}
+  .pipeline-card{position:relative; background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:26px 24px 22px; box-shadow:var(--shadow); overflow:hidden;}
+  .pipeline-card .pipeline-step-num{position:absolute; top:-6px; right:12px; font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:52px; font-weight:700; color:var(--surface-2); line-height:1; z-index:0; user-select:none;}
+  .pipeline-card .eyebrow{position:relative; z-index:1; margin-bottom:10px;}
+  .pipeline-card h4{position:relative; z-index:1; font-size:16.5px; margin-bottom:9px;}
+  .pipeline-card p{position:relative; z-index:1; font-size:13.5px; color:var(--muted); margin-bottom:0;}
+
+  .cadence{counter-reset:step; display:flex; flex-direction:column; margin-top:8px;}
+  .cadence-step{display:grid; grid-template-columns:40px 1fr; gap:16px; padding:16px 0; border-top:1px solid var(--line);}
+  .cadence-step:first-child{border-top:none;}
+  .cadence-step::before{counter-increment:step; content:counter(step); font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:13px; font-weight:700; width:28px; height:28px; border-radius:50%; background:var(--surface-2); color:var(--muted); display:flex; align-items:center; justify-content:center;}
+  .cadence-step h4{font-size:15px; margin-bottom:3px;}
+  .cadence-step p{font-size:13.5px; color:var(--muted); margin-bottom:0;}
+
+  .impact-table td:first-child{color:var(--muted); font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:13px;}
+  .impact-table td:last-child{font-weight:500;}
+
+  /* diagnostic (sample) cards */
+  .diagnostic-grid{display:flex; flex-direction:column; gap:22px; margin-top:8px;}
+  .diagnostic-card{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:26px 28px; box-shadow:var(--shadow);}
+  .diagnostic-card .diag-head{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:14px;}
+  .diagnostic-card h4{font-size:18px;}
+  .diag-row{display:grid; grid-template-columns:120px 1fr; gap:14px; padding:12px 0; border-top:1px solid var(--line);}
+  .diag-row:first-child{border-top:none;}
+  .diag-row .diag-label{font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); font-weight:700; padding-top:2px;}
+  .diag-row p{font-size:14px; margin-bottom:0;}
+  .diag-result{background:var(--bridge-tint); border-radius:6px; padding:10px 14px; margin-top:2px; font-size:13.5px; color:var(--ink); display:inline-block;}
+
+  footer{padding:36px 0 10px; font-size:12.5px; color:var(--muted);}
+  ::selection{background:var(--upper); color:#fff;}
+</style>
+
+<div class="page">
+
+  <header class="masthead">
+    <div class="eyebrow">GTM Systems Engineering &middot; Corelane (Usage-Based SaaS)</div>
+    <h1>From Spend to Revenue: A GTM Systems Playbook</h1>
+    <p class="sub">This system connects Marketing and Sales together.
+      Instrumented at every handoff from ad spend to renewal. The goal is to create revenue engine at scale.</p>
+    <div class="meta">
+      <div>Target company<b>usage-based payments infrastructure</b></div>
+      <div>Scope<b>Spend &middot; MQL &middot; SQL &middot; Opportunity &middot; Closed Won &middot; Revenue &middot; CAC &middot; LTV</b></div>
+      <div>Stack<b>Cloud (Snowflake) &middot; CRM (Salesforce, HubSpot) &middot; Clay/Apollo &middot; Reverse ETL &middot; Python</b></div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav class="toc">
+      <div class="eyebrow">On this page</div>
+      <ol>
+        <li><a href="#why">Why a System, Not a Funnel</a></li>
+        <li><a href="#map">The Revenue Engine</a></li>
+        <li><a href="#stages">Optimizing Each Handoff</a></li>
+        <li><a href="#engine">The Sourcing &amp; Enrichment Engine</a></li>
+        <li><a href="#samples">Three Diagnostics</a></li>
+        <li><a href="#impact">Talking Business Impact</a></li>
+      </ol>
+    </nav>
+
+    <main>
+
+      <section id="why">
+        <h2>Why a system, not a funnel</h2>
+        <p class="section-intro">A funnel chart tells you volume dropped somewhere. It doesn't tell you whether the
+          drop happened because the ad copy was wrong, the lead scoring model was miscalibrated, the CRM had the
+          wrong contact, or the deal was stuck behind a compliance review nobody was watching. Treating Spend &rarr;
+          MQL &rarr; SQL &rarr; Opportunity &rarr; Closed Won &rarr; Revenue as one continuous, instrumented pipeline.</p>
+        <div class="callout">
+          <p><b>The core idea:</b> Every handoff in this pipeline is a place where data quality decays (e.g. wrong
+            contact, a stale usage number, an unscored lead.) A GTM System is to instrument each handoff so the
+            decay is visible immediately, not three months later when CAC:LTV shows up broken in a board deck.</p>
+        </div>
+      </section>
+
+      <section id="map">
+        <h2>The revenue engine</h2>
+        <p class="section-intro">Eight checkpoints, one continuous story. Marketing owns the cool end, Sales owns the
+          handoff in the middle, and the business owns the outcome. Then, CAC and LTV feed straight back
+          into next quarter's channel mix.</p>
+
+        <div class="stage-flow">
+          <div class="stage-box upper"><div class="stage-label">Marketing</div><div class="stage-name">Spend</div></div>
+          <div class="stage-arrow">&rarr;</div>
+          <div class="stage-box upper"><div class="stage-label">Marketing</div><div class="stage-name">MQL</div></div>
+          <div class="stage-arrow">&rarr;</div>
+          <div class="stage-box bridge"><div class="stage-label">Handoff</div><div class="stage-name">SQL</div></div>
+          <div class="stage-arrow">&rarr;</div>
+          <div class="stage-box bridge"><div class="stage-label">Sales</div><div class="stage-name">Opportunity</div></div>
+          <div class="stage-arrow">&rarr;</div>
+          <div class="stage-box lower"><div class="stage-label">Sales</div><div class="stage-name">Closed Won</div></div>
+          <div class="stage-arrow">&rarr;</div>
+          <div class="stage-box lower"><div class="stage-label">Product</div><div class="stage-name">Revenue</div></div>
+          <div class="stage-arrow">&rarr;</div>
+          <div class="stage-box diag"><div class="stage-label">Efficiency</div><div class="stage-name">CAC : LTV</div></div>
+        </div>
+        <div class="loop-note">&#8635;&nbsp; <span><b>The loop closes here:</b> blended CAC and LTV:CAC by channel and
+          plan tier get reallocated back into next quarter's Spend mix.</span></div>
+      </section>
+
+      <section id="stages">
+        <h2>Optimizing each handoff</h2>
+        <p class="section-intro">Every arrow above is a place volume or quality leaks. Here's the diagnosis-to-fix
+          pattern for each one, at a usage-based B2B company where the buyer, the champion, and the person who signed
+          up for the free sandbox are often three different people.</p>
+
+        <div class="table-wrap"><table>
+          <thead><tr><th>Handoff</th><th>Common leak</th><th>GTM engineering fix</th></tr></thead>
+          <tbody>
+            <tr><td class="metric-name">Spend &rarr; MQL</td><td>High traffic, low form fills. Tracking gaps or form friction</td><td>Verify GTM/tag firing first; shorten forms dynamically once an enrichment API identifies company size from the business email domain</td></tr>
+            <tr><td class="metric-name">MQL &rarr; SQL</td><td>Volume is up but Sales rejects most leads as poor fit or unreachable</td><td>Reweight the lead-scoring model toward high-intent product signals (API docs viewed, sandbox key generated); block free-mail domains at signup</td></tr>
+            <tr><td class="metric-name">SQL &rarr; Opportunity</td><td>The listed contact isn't the actual buyer or technical champion</td><td>Run contact-role enrichment before routing. Map the plan tier and use case to the title that actually owns it, not the most senior name found</td></tr>
+            <tr><td class="metric-name">Opportunity &rarr; Closed Won</td><td>Deals stall in security review or API evaluation</td><td>Automated triggers: SOC2/compliance packet after 5 days stuck; Slack ping to a Solutions Engineer if the blocker is technical</td></tr>
+            <tr><td class="metric-name">Closed Won &rarr; Revenue</td><td>Signed customer never ramps usage to the contracted volume</td><td>Reverse ETL from Revenue data back to CRM so CS sees real usage, not just contract value, and can intervene before the first renewal</td></tr>
+            <tr><td class="metric-name">Revenue &rarr; CAC:LTV</td><td>Blended CAC hides which channel &times; plan-tier combinations are actually unprofitable</td><td>Cohort CAC:LTV by channel and tier, not just overall. Reallocate spend away from combinations below the 3:1 bar</td></tr>
+          </tbody>
+        </table></div>
+
+        <p class="group-caption"><b>Three of these, in more depth</b> &mdash; the ones with the most engineering surface area</p>
+        <div class="card-grid">
+          <div class="card">
+            <div class="eyebrow">MQL &rarr; SQL</div>
+            <h4>Score intent, not just fit</h4>
+            <p>A downloaded whitepaper and a generated sandbox API key are not the same signal. Require the
+              latter or a pricing-page visit before a lead crosses into SQL, regardless of firmographic score.</p>
+          </div>
+          <div class="card">
+            <div class="eyebrow">SQL &rarr; Opportunity</div>
+            <h4>Route to the buyer, not the name on file</h4>
+            <p>The CEO signs nothing at a mid-market usage-based buyer. Map plan tier and use case to the actual
+              title &mdash; Head of Payments Ops, Platform Engineering Lead before an SDR ever reaches out.</p>
+          </div>
+          <div class="card">
+            <div class="eyebrow">Opportunity &rarr; Closed Won</div>
+            <h4>Watch the stall, not just the stage</h4>
+            <p>Days-in-stage is a better leading indicator than stage itself. A deal sitting in "Security Review"
+              past its median duration needs an automated nudge before it needs a discount.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="engine">
+        <h2>The sourcing &amp; enrichment engine</h2>
+        <p class="section-intro">The same pipeline pattern that sources and qualifies outbound targets also keeps
+          the SQL &rarr; Opportunity handoff honest: don't hand Sales a name, hand them the right name, with a
+          confidence score attached.</p>
+
+        <p class="group-caption"><b>Pipeline architecture</b></p>
+        <div class="pipeline-grid">
+          <div class="pipeline-card">
+            <div class="pipeline-step-num">01</div>
+            <div class="eyebrow">Signal ingestion</div>
+            <h4>Every signal lands in one normalized place</h4>
+            <p>Product usage, firmographic and tech-stack signals, and intent data (job
+              postings, review sites) all flow into a normalization job that standardizes company and domain records
+              before anything downstream touches them.</p>
+          </div>
+          <div class="pipeline-card">
+            <div class="pipeline-step-num">02</div>
+            <div class="eyebrow">Company &amp; contact research</div>
+            <h4>Two tiers, cheapest source first</h4>
+            <p>Tier 1 is LinkedIn, for org structure and reporting lines. Tier 2 is the open web, careers
+              pages and press. For anything LinkedIn doesn't surface. Enrichment APIs (Apollo/Clay) fill in
+              remaining firmographic gaps.</p>
+          </div>
+          <div class="pipeline-card">
+            <div class="pipeline-step-num">03</div>
+            <div class="eyebrow">Buyer-role mapping</div>
+            <h4>Map the decision, not the seniority</h4>
+            <p>A contact-selection step matches plan tier and use case to the title that actually owns the decision.</p>
+          </div>
+          <div class="pipeline-card">
+            <div class="pipeline-step-num">04</div>
+            <div class="eyebrow">Confidence &amp; ICP scoring</div>
+            <h4>Score before anything gets sent</h4>
+            <p>Every contact gets an H/M/L confidence score based on LinkedIn match, domain match, and email-pattern
+              validation. Only High pushes to CRM automatically; Medium and Low sit in a human review queue.</p>
+          </div>
+          <div class="pipeline-card">
+            <div class="pipeline-step-num">05</div>
+            <div class="eyebrow">Suppression, dedup &amp; sync</div>
+            <h4>Upsert, never re-create</h4>
+            <p>Company names are normalized and clustered by domain before insertion, then synced to CRM with
+              custom fields, usage percentile, expansion-signal flag, plan-tier fit, and handed off to
+              outbound automation.</p>
+          </div>
+        </div>
+
+        <p class="group-caption"><b>Failure modes &amp; how they're handled</b></p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Issue</th><th>Solution</th></tr></thead>
+          <tbody>
+            <tr><td>Hallucinated or stale contacts</td><td>Only accept a contact with a LinkedIn match, domain match, and email-pattern validation all agreeing</td></tr>
+            <tr><td>Duplicate companies across signal sources</td><td>Normalize names and cluster by domain and address before any CRM insert/upsert, never re-create</td></tr>
+            <tr><td>Usage signals go stale between batches</td><td>Timestamp every enrichment record and tie the refresh cadence to the warehouse's own batch job, not a fixed schedule</td></tr>
+          </tbody>
+        </table></div>
+
+        <div class="callout">
+          <p><b>Where AI fits, and where it doesn't:</b> useful for idea generation, first-pass research, and the
+          repetitive work of drafting enrichment queries across hundreds of accounts. Not trusted for the final
+          send/no-send call on a contact, or for judging whether a borderline account actually fits the ICP.
+          Unambiguous stays a human decision.</p>
+        </div>
+
+        <div class="callout">
+          <p><b>Signal-based outbound, in practice:</b> a customer crossing 80% of their monthly API-call plan limit
+          fires an expansion-signal flag straight into CRM. The same mechanism that would flag a newly
+          expanded account as an upsell trigger, not just a churn-risk watch.</p>
+        </div>
+      </section>
+
+      <!-- <section id="impact">
+        <h2>Talking business impact</h2>
+        <p class="section-intro">The same fact, said two ways. Lead with the right-hand column in a stakeholder
+          review; keep the left-hand column for the internal dashboard.</p>
+
+        <div class="table-wrap"><table class="impact-table">
+          <thead><tr><th>Metric-speak</th><th>Business-speak</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">Blended CAC: $410</td><td>It costs us $410 to acquire a customer today, down from $460 last quarter.</td></tr>
+            <tr><td class="mono">LTV:CAC: 3.4:1</td><td>For every dollar we spend acquiring a customer, we get $3.40 back over their lifetime. Comfortably above our 3:1 target.</td></tr>
+            <tr><td class="mono">Payback period: 11 mo</td><td>We recover the cost of acquiring a customer in under a year, well inside our 18-month ceiling.</td></tr>
+            <tr><td class="mono">SQL acceptance: 31%</td><td>Roughly 1 in 3 leads Sales receives are worth their time. Up from 1 in 5 last quarter.</td></tr>
+            <tr><td class="mono">NRR: 118%</td><td>Existing customers alone are growing revenue 18% a year, before we sign anyone new.</td></tr>
+            <tr><td class="mono">Days in Security Review: 6</td><td>We cut the compliance bottleneck nearly in half, so deals aren't dying in legal limbo.</td></tr>
+          </tbody>
+        </table></div>
+      </section> -->
+
+    </main>
+  </div>
+
+  <footer>GTM Systems Playbook &middot; Corelane &middot; connecting the ABM/funnel measurement framework and the
+    signal-based sourcing engine into one closed-loop revenue system.</footer>
+</div>
